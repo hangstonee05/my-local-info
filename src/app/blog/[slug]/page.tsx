@@ -1,6 +1,5 @@
 import { getPostData, getSortedPostsData } from '@/lib/posts';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import MarkdownIt from 'markdown-it';
 import Link from 'next/link';
 
 export async function generateStaticParams() {
@@ -13,6 +12,14 @@ export async function generateStaticParams() {
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   const slug = (await params).slug;
   const postData = await getPostData(slug);
+  
+  const md = new MarkdownIt({
+    html: true,
+    linkify: true,
+    typographer: true
+  });
+  
+  const contentHtml = md.render(postData.contentHtml || '');
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-zinc-300 font-sans selection:bg-orange-500/30 selection:text-orange-200">
@@ -77,11 +84,10 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           <div className="w-full h-px bg-white/5" />
         </header>
 
-        <article className="prose prose-invert prose-zinc max-w-none prose-headings:text-white prose-a:text-blue-400 prose-blockquote:border-blue-500/50 prose-img:rounded-3xl">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>
-            {postData.contentHtml || ''}
-          </ReactMarkdown>
-        </article>
+        <article 
+          className="prose prose-invert prose-zinc max-w-none prose-headings:text-white prose-a:text-blue-400 prose-blockquote:border-blue-500/50 prose-img:rounded-3xl"
+          dangerouslySetInnerHTML={{ __html: contentHtml }}
+        />
 
         {/* 푸터 영역 (선택사항) */}
         <footer className="mt-20 pt-10 border-t border-white/5">
