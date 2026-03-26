@@ -71,6 +71,7 @@ export default function Home() {
             <Link href="#" className="hover:text-orange-500 transition-colors">행사소식</Link>
             <Link href="#" className="hover:text-orange-500 transition-colors">생활혜택</Link>
             <Link href="#" className="hover:text-orange-500 transition-colors">동네이야기</Link>
+            <Link href="/blog" className="px-4 py-1.5 bg-zinc-800 text-zinc-300 hover:bg-white hover:text-black rounded-xl transition-all font-bold border border-white/5 shadow-sm">블로그</Link>
           </nav>
           <div className="flex items-center gap-4">
             <div className="text-xs font-mono text-zinc-600 px-3 py-1 bg-white/5 rounded-full border border-white/5">
