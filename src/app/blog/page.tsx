@@ -28,7 +28,7 @@ export default function BlogPage() {
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-500">
             <Link href="/" className="hover:text-orange-500 transition-colors">행사소식</Link>
             <Link href="/" className="hover:text-orange-500 transition-colors">생활혜택</Link>
-            <Link href="/" className="hover:text-orange-500 transition-colors">동네이야기</Link>
+            <Link href="/about" className="hover:text-orange-500 transition-colors">소개</Link>
             <Link href="/blog" className="px-4 py-1.5 bg-white text-black rounded-xl transition-all font-bold border border-white/5 shadow-sm">블로그</Link>
           </nav>
         </div>

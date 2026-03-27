@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import AdBanner from "@/components/AdBanner";
 
 interface LocalInfo {
   id: number;
@@ -54,6 +55,49 @@ export default function Home() {
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-yellow-500/5 blur-[120px] rounded-full"></div>
       </div>
 
+      {/* 구조화 데이터 (JSON-LD) */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(data.map(item => ({
+            "@context": "https://schema.org",
+            "@type": item.category === '행사' ? 'Event' : 'GovernmentService',
+            "name": item.name,
+            "description": item.summary,
+            ...(item.category === '행사' ? {
+              "startDate": item.startDate,
+              "endDate": item.endDate,
+              "location": {
+                "@type": "Place",
+                "name": item.location
+              }
+            } : {
+              "provider": {
+                "@type": "Organization",
+                "name": "성남시"
+              }
+            })
+          })))
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "홈",
+                "item": "https://my-local-info-eya.pages.dev"
+              }
+            ]
+          })
+        }}
+      />
+
       {/* 1. 상단 헤더 */}
       <header className="sticky top-0 z-50 backdrop-blur-xl bg-black/40 border-b border-white/5">
         <div className="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
@@ -68,9 +112,9 @@ export default function Home() {
             </Link>
           </div>
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-500">
-            <Link href="#" className="hover:text-orange-500 transition-colors">행사소식</Link>
-            <Link href="#" className="hover:text-orange-500 transition-colors">생활혜택</Link>
-            <Link href="#" className="hover:text-orange-500 transition-colors">동네이야기</Link>
+            <Link href="/" className="hover:text-orange-500 transition-colors">행사소식</Link>
+            <Link href="/" className="hover:text-orange-500 transition-colors">생활혜택</Link>
+            <Link href="/about" className="hover:text-orange-500 transition-colors">소개</Link>
             <Link href="/blog" className="px-4 py-1.5 bg-zinc-800 text-zinc-300 hover:bg-white hover:text-black rounded-xl transition-all font-bold border border-white/5 shadow-sm">블로그</Link>
           </nav>
           <div className="flex items-center gap-4">
@@ -103,6 +147,9 @@ export default function Home() {
             ))}
           </div>
         </section>
+
+        {/* 광고 배너 배치 */}
+        <AdBanner />
 
         {/* 3. 지원금/혜택 정보 */}
         <section className="relative">
